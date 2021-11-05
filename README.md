@@ -16,5 +16,6 @@ conda install -c anaconda matplotlib
 conda install -c anaconda requests
 conda install -c anaconda xarray
 conda install -c conda-forge gsw
+conda install -c conda-forge pyproj
 ```
 
