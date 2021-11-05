@@ -11,10 +11,10 @@ The datasets accessed in this collection are from the following sources:
 ## Requirements
 It is recommended that a fresh anaconda environement be created when using these scripts. The following packages are required:
 ```
-numpy
-matplotlib
+conda install -c anaconda numpy
+conda install -c anaconda matplotlib
 conda install -c anaconda requests
 conda install -c anaconda xarray
-gsw
+conda install -c conda-forge gsw
 ```
 
