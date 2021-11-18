@@ -2,7 +2,7 @@
 These CTDs were collected during NASA's Oceans Melting Greenland (OMG) Mission 2015-2021.
 
 ## Data Storage
-The OMG data are stored are JPL's Physical Oceanograph Distributed Active Archive Center. To use these codes, you will need your credentials for this system, which are different than those used to sign into Earthdata. First, navigate to the [PO.DAAC page](https://podaac.jpl.nasa.gov/dataaccess) and log in using your Earthdata credentials. Then, follow the link to "Access API Credentials" to view your PO.DAAC username and password.
+The OMG data are stored are JPL's Physical Oceanography Distributed Active Archive Center. To use these codes, you will need your credentials for this system, which are different than those used to sign into Earthdata. First, navigate to the [PO.DAAC page](https://podaac.jpl.nasa.gov/dataaccess) and log in using your Earthdata credentials. Then, follow the link to "Access API Credentials" to view your PO.DAAC username and password.
 
 ## Using these scripts
 To download and access data from the OMG Mission using the scripts provided here, first identify the following keywords to be used in the command line:
@@ -37,7 +37,7 @@ python3 format_individual_ctds_from_file_list.py -o output_directory -d data_dir
 ```
 
 ## Citation
-To cite this data (described [HERE](https://omg.jpl.nasa.gov/portal/browse/OMGEV-AXCTD/), use the following:
+To cite this data (described [HERE](https://omg.jpl.nasa.gov/portal/browse/OMGEV-AXCTD/)), use the following:
 
 AXCTDs:
 
