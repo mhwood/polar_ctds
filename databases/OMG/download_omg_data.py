@@ -165,6 +165,6 @@ if __name__ == '__main__':
     print(' ')
 
     if printing:
-        print(' Step 1: Downloading data from PO.DAAC')
+        print('Downloading data from PO.DAAC')
     auth = (podaac_uname,podaac_pword)
     download_ctds_from_podaac(project_dir,auth,years,sources,printing)

@@ -35,8 +35,8 @@ def download_hadley_data(output_dir,version,correction,years):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-o", "--output_directory", action="store",
-                        help="The directory where the data will be stored.", dest="output_dir",
+    parser.add_argument("-d", "--data_directory", action="store",
+                        help="The directory where the data will be stored.", dest="data_dir",
                         type=str, required=True)
 
     parser.add_argument("-v", "--version", action="store",
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
 
     args = parser.parse_args()
-    output_dir = args.output_dir
+    data_dir = args.data_dir
     version = args.version
     correction = args.correction
     years = args.years
@@ -61,4 +61,4 @@ if __name__ == '__main__':
     if years == -1 or -1 in years:
         years = np.arange(1960,2020).tolist()
 
-    download_hadley_data(output_dir,version,correction,years)
+    download_hadley_data(data_dir,version,correction,years)

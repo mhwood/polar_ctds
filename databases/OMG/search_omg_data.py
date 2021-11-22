@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.path as mplPath
 import netCDF4 as nc4
 import argparse
-# import shapefile
+import shapefile
 from pyproj import Proj, Transformer
 
 def reproject_polygon(polygon_array,inputCRS,outputCRS,x_column=0,y_column=1):
@@ -18,7 +18,7 @@ def reproject_polygon(polygon_array,inputCRS,outputCRS,x_column=0,y_column=1):
     return output_polygon
 
 
-def search_omg_data(output_dir,data_dir,search_with_bbox,bbox,search_with_shapefile,shapefile_path,years,sources,printing):
+def search_omg_data(output_dir,data_dir,search_with_bbox,bbox,search_with_shapefile,shapefile_path,years,sources,location_name,printing):
 
     min_year = np.min(np.array(years))
     max_year = np.max(np.array(years))
@@ -69,16 +69,19 @@ def search_omg_data(output_dir,data_dir,search_with_bbox,bbox,search_with_shapef
                             H) + ',' + str(Mi) + ','+ str(S)+',' + str(lon) + ',' + str(lat)
                         total_output += output_line
 
+    if location_name!='':
+        output_file = output_dir + '/OMG_CTD_Locations_'+'_'.join(location_name.split())+'.csv'
+    else:
         output_file = output_dir + '/OMG_CTD_Locations.csv'
-        f = open(output_file, 'w')
-        f.write(total_output)
-        f.close()
+    f = open(output_file, 'w')
+    f.write(total_output)
+    f.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-d", "--data_directory", action="store",
-                        help="Directory where CTD data will be stored",
+                        help="Directory where CTD data is stored",
                         dest="data_dir", type=str, required=True)
 
     parser.add_argument("-o", "--output_directory", action="store",
@@ -106,6 +109,11 @@ if __name__ == '__main__':
                              "Default value is all.", default='all', dest="sources", type=str, nargs='+',
                         required=False)
 
+    parser.add_argument("-l", "--location_name", action="store",
+                        help="(Optional) Location name to add to the metadata file. Default is none.",
+                        default='',
+                        dest="location_name", type=str, required=False)
+
     parser.add_argument("-r", "--printing", action="store",
                         help="Choose whether to print output status messages. Default is 1 (true).",
                         default=1,
@@ -118,6 +126,7 @@ if __name__ == '__main__':
     project_dir = args.project_dir
     bounding_box = args.bounding_box
     shapefile_path = args.shapefile_path
+    location_name = args.location_name
 
     if bounding_box!=-1:
         search_with_bbox = True
@@ -132,7 +141,7 @@ if __name__ == '__main__':
 
     years = args.years
     if years == -1 or -1 in years:
-        years = [2015, 2016, 2017, 2018, 2019, 2020]
+        years = [2015, 2016, 2017, 2018, 2019, 2020, 2021]
     sources = args.sources
     if sources=='all':
         sources = ['CTDs','AXCTDs']
@@ -155,6 +164,6 @@ if __name__ == '__main__':
     print('    Print Messages:   ' + str(printing))
     print(' ')
 
-    search_omg_data(project_dir,data_dir,search_with_bbox,bounding_box,search_with_shapefile,shapefile_path,years,sources,printing)
+    search_omg_data(project_dir,data_dir,search_with_bbox,bounding_box,search_with_shapefile,shapefile_path,years,sources,location_name,printing)
 
 

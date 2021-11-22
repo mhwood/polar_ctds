@@ -83,7 +83,7 @@ def reproject_polygon(polygon_array,inputCRS,outputCRS,x_column=0,y_column=1):
     output_polygon[:,y_column] = y2
     return output_polygon
 
-def search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correction,years,min_depth):
+def search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correction,years,min_depth,location_name):
     min_year = np.min(np.array(years))
     max_year = np.max(np.array(years))
     total_output = 'File_ID,File_Index,Year,Month,Day,Hour,Minute,Longitude,Latitude'
@@ -105,12 +105,13 @@ def search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correctio
     path = mplPath.Path(outline_reprojected)
 
     for year in range(min_year, max_year + 1):
+        print('    Searching for profiles in ' + str(year))
         subfolder = data_dir + '/EN.' + version + '.profiles.' + correction + '.' + str(year)
         # year_output = 'File_ID,Year,Month,Day,Hour,Minute,Longitude,Latitude'
         # year_records = []
         # year_points = []
         for month in range(1, 13):
-            print('    Searching for profiles in ' + str(year) + '/' + str(month))
+            # print('    Searching for profiles in ' + str(year) + '/' + str(month))
 
             month_file = 'EN.'+version + '.f.profiles.' + correction + '.' + str(year) + '{:02d}'.format(month) + '.nc'
 
@@ -202,7 +203,10 @@ def search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correctio
         # espg = 4326
         # createPointShapefile(output_file, fields, fieldTypes, year_records, year_points, espg)
 
-    output_file = output_dir + '/Hadley_CTD_Locations.csv'
+    if location_name!='':
+        output_file = output_dir + '/Hadley_CTD_Locations_'+'_'.join(location_name.split())+'.csv'
+    else:
+        output_file = output_dir + '/Hadley_CTD_Locations.csv'
     f = open(output_file, 'w')
     f.write(total_output)
     f.close()
@@ -243,6 +247,11 @@ if __name__ == '__main__':
                         help="The minimum depth the CTD must reach to be counted (default = 50 m).", dest="min_depth",
                         type=int, required=False, default=50)
 
+    parser.add_argument("-l", "--location_name", action="store",
+                        help="(Optional) Location name to add to the metadata file. Default is none.",
+                        default='',
+                        dest="location_name", type=str, required=False)
+
 
     args = parser.parse_args()
     output_dir = args.output_dir
@@ -252,6 +261,7 @@ if __name__ == '__main__':
     pole = args.pole
     version = args.version
     correction = args.correction
+    location_name = args.location_name
 
     years = args.years
     min_depth = args.min_depth
@@ -259,4 +269,4 @@ if __name__ == '__main__':
     if years == -1 or -1 in years:
         years = np.arange(1960,2022).tolist()
 
-    search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correction,years,min_depth)
+    search_hadley_data(output_dir,data_dir,shapefile_path,pole,version,correction,years,min_depth,location_name)
